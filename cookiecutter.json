@@ -1,0 +1,15 @@
+{
+    "full_name": "Christian Riedel",
+    "email": "example@example.com",
+    "github_username": "Cielquan",
+    "pypi_username": "{{ cookiecutter.github_username }}",
+    "project_name": "Python-Boilerplate",
+    "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+    "project_short_description": "Python Boilerplate for my python packages.",
+    "license": ["GPLv3", "LGPLv3" ,"MIT", "BSD3", "Not open source"],
+    "version": "0.1.0",
+    "iso_date": "{% now 'local', '%Y-%m-%d' %}",
+    "year": "{% now 'local', '%Y' %}",
+    "use_pypi_deployment_with_travis": "y",
+    "command_line_interface": ["Click", "No command-line interface"]
+}
