@@ -43,31 +43,31 @@
 
 
 .. PyPI block
-.. |py_versions| image:: https://img.shields.io/pypi/pyversions/coverage.svg?style=flat-square&logo=python&logoColor=FBE072
+.. |py_versions| image:: https://img.shields.io/pypi/pyversions/{{cookiecutter.project_slug}}.svg?style=flat-square&logo=python&logoColor=FBE072
     :alt: PyPI - Python versions supported
     :target: https://pypi.org/project/{{cookiecutter.project_slug}}/
 
-.. |implementations| image:: https://img.shields.io/pypi/implementation/coverage.svg?style=flat-square&logo=python&logoColor=FBE072
+.. |implementations| image:: https://img.shields.io/pypi/implementation/{{cookiecutter.project_slug}}.svg?style=flat-square&logo=python&logoColor=FBE072
     :alt: PyPI - Implementations supported
     :target: https://pypi.org/project/{{cookiecutter.project_slug}}/
 
-.. |pypi| image:: https://img.shields.io/pypi/v/coverage.svg?style=flat-square&logo=pypi&logoColor=FBE072
+.. |pypi| image:: https://img.shields.io/pypi/v/{{cookiecutter.project_slug}}.svg?style=flat-square&logo=pypi&logoColor=FBE072
     :alt: PyPI - Package latest release
     :target: https://pypi.org/project/{{cookiecutter.project_slug}}/
 
-.. |status| image:: https://img.shields.io/pypi/status/coverage.svg?style=flat-square&logo=pypi&logoColor=FBE072
+.. |status| image:: https://img.shields.io/pypi/status/{{cookiecutter.project_slug}}.svg?style=flat-square&logo=pypi&logoColor=FBE072
     :alt: PyPI - Package stability
     :target: https://pypi.org/project/{{cookiecutter.project_slug}}/
 
-.. |format| image:: https://img.shields.io/pypi/format/coverage.svg?style=flat-square&logo=pypi&logoColor=FBE072
+.. |format| image:: https://img.shields.io/pypi/format/{{cookiecutter.project_slug}}.svg?style=flat-square&logo=pypi&logoColor=FBE072
     :alt: PyPI - Format
     :target: https://pypi.org/project/{{cookiecutter.project_slug}}/
 
-.. |wheel| image:: https://img.shields.io/pypi/wheel/coverage.svg?style=flat-square&logo=pypi&logoColor=FBE072
+.. |wheel| image:: https://img.shields.io/pypi/wheel/{{cookiecutter.project_slug}}.svg?style=flat-square&logo=pypi&logoColor=FBE072
     :alt: PyPI - Wheel
     :target: https://pypi.org/project/{{cookiecutter.project_slug}}/
 
-.. |downloads| image:: https://img.shields.io/pypi/dm/coverage.svg?style=flat-square&logo=pypi&logoColor=FBE072
+.. |downloads| image:: https://img.shields.io/pypi/dm/{{cookiecutter.project_slug}}.svg?style=flat-square&logo=pypi&logoColor=FBE072
     :target: https://pypi.org/project/{{cookiecutter.project_slug}}/
     :alt: PyPI - Monthly downloads
 
