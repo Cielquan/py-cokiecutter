@@ -116,4 +116,4 @@ version.py
 *.bak
 
 # Local backup dir
-_backupfiles
+.backupfiles
