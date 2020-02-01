@@ -83,11 +83,11 @@ from {{ cookiecutter.project_slug }} import __version__
 
 
 #: Add Repo to path
-sys.path.insert(0, os.path.abspath("../../.."))
+sys.path.insert(0, os.path.abspath("../.."))
 
 #: Vars
 CONF_DIR = Path(__file__)
-TODAY = str(datetime.today())
+TODAY = datetime.today()
 YEAR = f"{TODAY.year}"
 
 
