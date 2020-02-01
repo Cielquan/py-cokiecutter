@@ -60,19 +60,12 @@
 # Github: https://github.com/{{ cookiecutter.github_username }}/
 # ======================================================================================
 """Setup for {{cookiecutter.project_name}}"""
-import textwrap
-
 import setuptools
 
 
 setuptools.setup(
     use_scm_version={
-        "write_to": "src/python_test/version.py",
-        "write_to_template": textwrap.dedent(
-            """
-             # -*- coding: utf-8 -*-
-             __version__ = {version!r}
-             """
-        ).lstrip(),
+        "write_to": "src/{{cookiecutter.project_slug}}/version.py",
+        "write_to_template": "__version__ = {version!r}",
     },
 )
