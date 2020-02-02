@@ -3,7 +3,7 @@
 #
 # This file 'conf.py' created {{ cookiecutter.iso_date }}
 # is part of the project/program '{{ cookiecutter.project_name }}'.
-{% if cookiecutter.license == "GPLv3" -%}
+{% if cookiecutter.license == "GPL-3.0" -%}
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or

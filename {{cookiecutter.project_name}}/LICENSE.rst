@@ -1,4 +1,4 @@
-{% if cookiecutter.license == 'GPLv3' -%}
+{% if cookiecutter.license == 'GPL-3.0' -%}
 .. parsed-literal::
                         GNU GENERAL PUBLIC LICENSE
                            Version 3, 29 June 2007
