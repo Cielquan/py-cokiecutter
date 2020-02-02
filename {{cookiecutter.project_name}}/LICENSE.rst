@@ -674,7 +674,7 @@
     the library.  If this is what you want to do, use the GNU Lesser General
     Public License instead of this License.  But first, please read
     <https://www.gnu.org/licenses/why-not-lgpl.html>.
-{% elif cookiecutter.license == 'LGPLv3' -%}
+{% elif cookiecutter.license == 'LGPL-3.0' -%}
 .. parsed-literal::
                        GNU LESSER GENERAL PUBLIC LICENSE
                            Version 3, 29 June 2007
