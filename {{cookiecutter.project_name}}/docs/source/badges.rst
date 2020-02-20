@@ -36,9 +36,9 @@
     :alt: Codecov - Test Coverage
     :target: https://codecov.io/gh/{{cookiecutter.github_username}}/{{ cookiecutter.project_slug}}
 
-.. |docs| image:: https://img.shields.io/readthedocs/{{cookiecutter.project_slug}}/latest.svg?style=flat-square&logo=read-the-docs&logoColor=white
+.. |docs| image:: https://img.shields.io/readthedocs/{{ cookiecutter.project_slug | replace("_", "-") }}/latest.svg?style=flat-square&logo=read-the-docs&logoColor=white
     :alt: Read the Docs (latest) - Status
-    :target: https://python-test-cielquan.readthedocs.io/en/latest/?badge=latest
+    :target: https://{{ cookiecutter.project_slug | replace("_", "-") }}.readthedocs.io/en/latest/?badge=latest
 
 .. |reqs| image:: https://img.shields.io/requires/github/{{cookiecutter.github_username}}/{{ cookiecutter.project_slug}}.svg?style=flat-square
     :alt: Requires.io - Requirements status
