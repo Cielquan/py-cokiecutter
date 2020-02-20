@@ -1,6 +1,4 @@
 {% if cookiecutter.command_line_interface|lower == 'click' -%}
-#!/usr/bin/env python3
-
 # ======================================================================================
 # Copyright (c) {{ cookiecutter.year }} {{ cookiecutter.full_name }}
 #
