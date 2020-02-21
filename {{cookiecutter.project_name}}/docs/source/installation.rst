@@ -31,13 +31,13 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}
+    $ git clone git://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_lower_case }}
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl -OJL https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/tarball/master
+    $ curl -OJL https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_lower_case }}/tarball/master
 
 Once you have a copy of the source, you can install directly:
 
@@ -56,9 +56,9 @@ You can also grab the repo in either `tar.gz`__ or `zip`__ format.
 After downloading and extracting you can install it with :command:`pip` like above.
 
 
-.. _Github repo: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}
-.. _tarball: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/tarball/master
-.. __: https://github.com/Cielquan/DoTH-DNS/archive/master.tar.gz
-.. __: https://github.com/Cielquan/DoTH-DNS/archive/master.zip
+.. _Github repo: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_lower_case }}
+.. _tarball: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_lower_case }}/tarball/master
+.. __: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_lower_case }}/archive/master.tar.gz
+.. __: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_lower_case }}/archive/master.zip
 
 .. highlight:: default
