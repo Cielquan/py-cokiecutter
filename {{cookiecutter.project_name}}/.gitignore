@@ -113,10 +113,23 @@ venv.bak/
 # Versioning
 version.py
 
+# Configs
+*.list
+.htpasswd
+
+# Certificate files
+*.pem
+*.crt
+*.csr
+*.ext
+*.key
+*.srl
+
 # Backup files
 *.bak
 
 # Local backup dir
+_backupfiles
 .backupfiles
 {% if cookiecutter.layout == "lib" %}
 # Poetry lock file
