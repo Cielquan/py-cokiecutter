@@ -118,3 +118,7 @@ version.py
 
 # Local backup dir
 .backupfiles
+{% if cookiecutter.layout == "lib" %}
+# Poetry lock file
+poetry.lock
+{%- endif %}
