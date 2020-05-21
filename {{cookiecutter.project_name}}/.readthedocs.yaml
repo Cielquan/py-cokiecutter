@@ -4,23 +4,16 @@
 
 version: 2
 
-
-formats: all
-
+#formats: all
 
 python:
   version: 3.7
-  system_packages: true
+  system_packages: false
   install:
     - method: pip
       path: .
       extra_requirements:
         - docs
-
-
-build:
-  image: latest
-
 
 sphinx:
   configuration: docs/source/conf.py
