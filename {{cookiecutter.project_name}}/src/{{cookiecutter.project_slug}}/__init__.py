@@ -64,7 +64,7 @@
 
     You should have received a copy of the BSD 3-Clause License
     along with this program. If not, see <https://opensource.org/licenses/BSD-3-Clause>.
-    {% endif -%}
+    {%- endif %}
 """
 try:
     from importlib.metadata import version
