@@ -1,10 +1,3 @@
-.. This file 'installation.rst' created {{ cookiecutter.iso_date }} is part of the project/program '{{ cookiecutter.project_name }}'.
-.. Copyright (c) {{ cookiecutter.year }} {{ cookiecutter.full_name }}, see LICENSE for more details
-
-.. highlight:: shell
-
-.. _installation:
-
 Installation
 ============
 
@@ -39,13 +32,7 @@ Or download the `tarball`_:
 
     $ curl -OJL https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_lower_case }}/tarball/master
 
-Once you have a copy of the source, you can install directly:
-
-.. code-block:: console
-
-    $ python setup.py install
-
-Or with pip:
+Once you have a copy of the source, you can install directly with pip:
 
 .. code-block:: console
 
@@ -60,5 +47,3 @@ After downloading and extracting you can install it with :command:`pip` like abo
 .. _tarball: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_lower_case }}/tarball/master
 .. __: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_lower_case }}/archive/master.tar.gz
 .. __: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_lower_case }}/archive/master.zip
-
-.. highlight:: default

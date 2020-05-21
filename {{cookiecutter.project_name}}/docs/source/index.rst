@@ -1,9 +1,13 @@
-.. This file 'index.rst' created {{ cookiecutter.iso_date }} is part of the project/program '{{ cookiecutter.project_name }}'.
-.. Copyright (c) {{ cookiecutter.year }} {{ cookiecutter.full_name }}, see LICENSE for more details
+.. This is the documentation's base file.
 
-
+{{ = * (11 + cookiecutter.project_name + 17)|length }}
 Welcome to {{ cookiecutter.project_name }}'s documentation!
-==========={% for _ in cookiecutter.project_name %}={% endfor %}=================
+{{ = * (11 + cookiecutter.project_name + 17)|length }}
+
+{{ cookiecutter.project_short_description }}
+
+
+.. include:: _badges.rst
 
 
 .. toctree::
@@ -12,13 +16,6 @@ Welcome to {{ cookiecutter.project_name }}'s documentation!
 
    installation
    usage
-
-
-.. toctree::
-   :maxdepth: 2
-   :caption: API Reference:
-
-   api
 
 
 .. toctree::
