@@ -1,6 +1,7 @@
 * {{ cookiecutter.project_name }} version:
 * Python version:
 * Operating System:
+* [ ] I check open and closed issues.
 
 ### Description
 
