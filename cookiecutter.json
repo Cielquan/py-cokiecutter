@@ -11,6 +11,5 @@
     "version": "0.1.0",
     "iso_date": "{% now 'local', '%Y-%m-%d' %}",
     "year": "{% now 'local', '%Y' %}",
-    "use_pypi_deployment_with_travis": "y",
-    "command_line_interface": ["Click", "No command-line interface"]
+    "layout": ["app", "lib"]
 }
