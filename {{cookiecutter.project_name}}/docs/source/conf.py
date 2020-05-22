@@ -37,10 +37,10 @@ YEAR = f"{TODAY.year}"
 project = "{{ cookiecutter.project_name }}"
 author = "{{ cookiecutter.full_name }}"
 release_year = "{{ cookiecutter.year }}"
-copyright = (
+copyright = (  #: pylint: disable=W0622  # noqa:A001,VNE003
     f"{release_year}{('-' + YEAR) if YEAR != release_year else ''}, "
     + author
-)  #: pylint: disable=W0622
+)
 #: The full version, including alpha/beta/rc tags
 release = __version__
 #: Major version like (X.Y)
