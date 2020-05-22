@@ -45,10 +45,6 @@ Documentation: https://{{ cookiecutter.project_lower_case }}.readthedocs.io.
     :alt: Read the Docs - Build Status (latest)
     :target: https://{{cookiecutter.project_lower_case}}.readthedocs.io/en/latest/?badge=latest
 
-.. |semver| image:: https://img.shields.io/badge/Versioning-semantic-brightgreen.svg?style=flat-square
-    :alt: Versioning - semantic
-    :target: https://semver.org/
-
 
 .. Pipeline
 .. |travis| image:: https://img.shields.io/travis/com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/master.svg?style=flat-square&logo=travis-ci&logoColor=FBE072
@@ -62,7 +58,6 @@ Documentation: https://{{ cookiecutter.project_lower_case }}.readthedocs.io.
 .. |codecov| image:: https://img.shields.io/codecov/c/github/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/master.svg?style=flat-square&logo=codecov
     :alt: Codecov - Test Coverage
     :target: https://codecov.io/gh/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}
-
 
 
 .. Tools
@@ -91,6 +86,10 @@ Documentation: https://{{ cookiecutter.project_lower_case }}.readthedocs.io.
 .. |gpg| image:: https://img.shields.io/badge/GPG-signed-blue.svg?style=flat-square&logo=gnu-privacy-guard
     :target: https://gnupg.org/
     :alt: Website
+
+.. |semver| image:: https://img.shields.io/badge/Versioning-semantic-brightgreen.svg?style=flat-square
+    :alt: Versioning - semantic
+    :target: https://semver.org/
 
 .. |pre-commit| image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?style=flat-square&logo=pre-commit&logoColor=yellow
     :target: https://github.com/pre-commit/pre-commit
