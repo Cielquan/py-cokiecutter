@@ -66,14 +66,14 @@ repos:
         args: [--safe]
 
 # TODO: 16.04.2020: Currently bandit is unusable with pre-commit .. wait for fix .. remove in tox then
-#  #: bandit - python code security analyzer
+#  #: bandit - python code security analyzer  # nosec
 #  - repo: https://github.com/PyCQA/bandit
 #    rev: 1.6.2
 #    hooks:
 #      - id: bandit
 #        args: ["--exclude ./.tox/*,./venv/*,./.eggs/*,./tests/*"]
 
-  #: flake8 - python linter
+  #: flake8 - python linter  # noqa: CODE
   - repo: https://gitlab.com/pycqa/flake8
     rev: 3.8.1
     hooks:
@@ -139,13 +139,13 @@ repos:
   #: Hooks managed via tox `pre-commit` venv
   - repo: local
     hooks:
-      #: pylint - python linter
+      #: pylint - python linter  # pylint: disable=CODE
       - id: pylint
         name: pylint
         entry: ./.pre_commit_tool_runner pylint pre-commit,dev
         language: system
         types: [python]
-      #: mypy - python type checker
+      #: mypy - python type checker  # typed: ignore
       - id: mypy
         args: ["--warn-unused-ignores"] # , --scripts-are-modules, --ignore-missing-imports]
         name: mypy
