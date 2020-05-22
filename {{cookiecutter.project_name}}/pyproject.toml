@@ -3,6 +3,7 @@
     build-backend = "poetry.masonry.api"
 
 
+# -- POETRY CONFIG ---------------------------------------------------------------------
 [tool.poetry]
     name = "{{cookiecutter.project_name}}"
     version = "{{cookiecutter.version}}"
