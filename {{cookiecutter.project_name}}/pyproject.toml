@@ -19,22 +19,53 @@
     [tool.poetry.dependencies]
         python = "^3.6.1"
         importlib-metadata = {version = "^1.6", python = "<3.8"}
-        toml = {version = "^0.10.1", optional = true}
+        #: Testing
         pytest = {version = "^5.4.2", optional = true}
         pytest-cov = {version = "^2.8.1", optional = true}
-        sphinx = {version = "^2", optional = true}
+        coverage = {extras = ["toml"], version = "^5.1", optional = true}
+        coverage-conditional-plugin = {version = "^0.3", optional = true}
+        pytest-sugar = {version = "^0.9.3", optional = true}
+        pytest-randomly = {version = "^3.4", optional = true}
+        pytest-mock = {version = "^3.1.0", optional = true}
+        mock = {version = "^4.0.2", optional = true}
+        faker = {version = "^4.1.0", optional = true}
+        pytest-factoryboy = {version = "^2.0.3", optional = true}
+#        pytest-bdd = {version = "^3.3.0", optional = true}
+#        behave = {version = "^1.2.6", optional = true}
+        #: Docs
+        sphinx = {version = "^3", optional = true} # TODO: change to 3.1 when released
         sphinx-rtd-theme = {version = "^0.4", optional = true}
+        sphinx-autodoc-typehints = {version = "^1.10.3", optional = true}
+        sphinxcontrib-apidoc = {version = "^0.3.0", optional = true}
+        sphinx-click = {version = "^2.3.2", optional = true}
+#        sphinxcontrib-confluencebuilder = {version = "^1.2.0", optional = true}
+        #: Code check
         pre-commit = {version = "^2.4", optional = true}
         mypy = {version = "0.770", optional = true}
         pylint = {version = "^2.4", optional = true}
+
 
     [tool.poetry.dev-dependencies]
         devtools = {version = "^0.5", extras = ["pygments"]}
         towncrier = {version = "19.9.0rc1"}
 
     [tool.poetry.extras]
-        testing = ["pytest", "pytest-cov", "toml"]
-        docs = ["sphinx", "sphinx-rtd-theme"]
+        testing = [
+            "pytest",
+            "pytest-cov", "coverage", "coverage-conditional-plugin",
+            "pytest-sugar",
+            "pytest-randomly",
+            "pytest-mock", "mock",
+            "faker", "pytest-factoryboy",
+        ]
+        docs = [
+            "sphinx",
+            "sphinx-rtd-theme",
+            "sphinx-autodoc-typehints",
+            "sphinxcontrib-apidoc",
+            "sphinx-click",
+            "sphinxcontrib-confluencebuilder"
+        ]
         pre-commit = ["pre-commit", "mypy", "pylint"]
 
 
@@ -88,6 +119,7 @@
 [tool.black]
     line-length = 88
     exclude = "venv/"
+    include = '\.pyi?$'
 
 
 # -- ISORT CONFIG ----------------------------------------------------------------------
@@ -96,142 +128,24 @@
     include_trailing_comma = true
     lines_after_imports = 2
     lines_between_types = 1
-    known_first_party = ["{{cookiecutter.project_slug}}", "tests"]
-    known_third_party = ["sphinx_rtd_theme"]
+    force_grid_wrap = 0
+    use_parentheses = true
+    line_length = 88
     skip = ["venv"]
+# TODO: 06.06.2020: fix intendtation when https://github.com/asottile/seed-isort-config/pull/63
+known_first_party = ["{{cookiecutter.project_slug}}", "tests"]
+known_third_party = ["sphinx_rtd_theme"]
 
 
-# -- PYTEST CONFIG ---------------------------------------------------------------------
-# support for pyproject.toml for 5.5 planned
-#[tool.pytest]
-#    addopts = ["-ra", "--showlocals"]
-#    mock_use_standalone_module = true
+#: -- PYLINT CONFIG --------------------------------------------------------------------
+[tool.pylint.messages_control]
+    disable = "C0330, C0326"  #: deactivated for black
+
+[tool.pylint.format]
+    max-line-length = "88"
 
 
-# -- COVERAGE CONFIG -------------------------------------------------------------------
-[tool.coverage.run]
-    branch = true
-    parallel = true
-    source = ["src/"]
-[tool.coverage.report]
-    fail_under = 100
-    skip_covered = false
-    show_missing = true
-    exclude_lines = [
-        "pragma: no cover",
-        "def __str__",
-        "def __repr__",
-        "if self.debug:",
-        "if settings.DEBUG",
-        "raise AssertionError",
-        "raise NotImplementedError",
-        "if 0:",
-        "if __name__ == .__main__.:",
-    ]
-    omit = [
-        "venv/*",
-        "tests/*",
-        "setup.py",
-        "*/__main__.py",
-    ]
-[tool.coverage.paths]
-    source = [
-        "src/{{cookiecutter.project_slug}}",
-         "*/.tox/*/lib/python*/site-packages/{{cookiecutter.project_slug}}",
-         "*/.tox/pypy*/site-packages/{{cookiecutter.project_slug}}",
-         "*/.tox\\*\\Lib\\site-packages\\{{cookiecutter.project_slug}}",
-         "*/src/{{cookiecutter.project_slug}}",
-         "*\\src\\{{cookiecutter.project_slug}}",
-    ]
-
-
-# -- PYLINT CONFIG ---------------------------------------------------------------------
-[tool.pylint."MESSAGES CONTROL"]
-    disable = "C0330" # Indentation | deactivated for black
-#        print-statement, #E1601
-#        parameter-unpacking, #E1602
-#        unpacking-in-except, #E1603
-#        old-raise-syntax, #E1604
-#        backtick, #E1605
-#        long-suffix, #E1606
-#        old-ne-operator, #E1607
-#        old-octal-literal, #E1608
-#        import-star-module-level, #E1609
-#        non-ascii-bytes-literal, #E1610
-#        raw-checker-failed, ##I0001
-#        bad-inline-option, ##I0010
-#        locally-disabled, ##I0011
-#        file-ignored, ##I0013
-#        suppressed-message, ##I0020
-#        useless-suppression, ##I0021
-#        deprecated-pragma, ##I0022
-#        use-symbolic-message-instead, #I0023
-#        apply-builtin, #W1601
-#        basestring-builtin, #W1602
-#        buffer-builtin, #W1603
-#        cmp-builtin, #W1604
-#        coerce-builtin, #W1605
-#        execfile-builtin, #W1606
-#        file-builtin, #W1607
-#        long-builtin, #W1608
-#        raw_input-builtin, #W1609
-#        reduce-builtin, #W1610
-#        standarderror-builtin, #W1611
-#        unicode-builtin, #W1612
-#        xrange-builtin, #W1613
-#        coerce-method, #W1614
-#        delslice-method, #W1615
-#        getslice-method, #W1616
-#        setslice-method, #W1617
-#        no-absolute-import, #W1618
-#        old-division, #W1619
-#        dict-iter-method, #W1620
-#        dict-view-method, #W1621
-#        next-method-called, #W1622
-#        metaclass-assignment, #W1623
-#        indexing-exception, #W1624
-#        raising-string, #W1625
-#        reload-builtin, #W1626
-#        oct-method, #W1627
-#        hex-method, #W1628
-#        nonzero-method, #W1629
-#        cmp-method, #W1630
-#        input-builtin, #W1632
-#        round-builtin, #W1633
-#        intern-builtin, #W1634
-#        unichr-builtin, #W1635
-#        map-builtin-not-iterating, #W1636
-#        zip-builtin-not-iterating, #W1637
-#        range-builtin-not-iterating, #W1638
-#        filter-builtin-not-iterating, #W1639
-#        using-cmp-argument, #W1640
-#        eq-without-hash, #W1641
-#        div-method, #W1642
-#        idiv-method, #W1643
-#        rdiv-method, #W1644
-#        exception-message-attribute, #W1645
-#        invalid-str-codec, #W1646
-#        sys-max-int, #W1647
-#        bad-python3-import, #W1648
-#        deprecated-string-function, #W1649
-#        deprecated-str-translate-call, #W1650
-#        deprecated-itertools-function, #W1651
-#        deprecated-types-field, #W1652
-#        next-method-defined, #W1653
-#        dict-items-not-iterating, #W1654
-#        dict-keys-not-iterating, #W1655
-#        dict-values-not-iterating, #W1656
-#        deprecated-operator-function, #W1657
-#        deprecated-urllib-function, #W1658
-#        xreadlines-attribute, #W1659
-#        deprecated-sys-function, #W1660
-#        exception-escape, #W1661
-#        comprehension-escape, #W1662
-#        C0330,
-#        F0010,
-
-
-# -- FLAKE8 CONFIG ---------------------------------------------------------------------
+#: -- FLAKE8 CONFIG --------------------------------------------------------------------
 #: Currently not supported - settings set via CLI call in .pre-commit-config.yaml
 #[tool.flake8]
 #    count = true
@@ -246,3 +160,58 @@
 #    max-complexity = 20
 #    pytest-fixture-no-parentheses = true
 #    format = "${cyan}%(path)s${reset}:${yellow_bold}%(row)d${reset}:${green_bold}%(col)d${reset}: ${red_bold}%(code)s${reset} %(text)s"
+
+
+# -- PYTEST CONFIG ---------------------------------------------------------------------
+# support for pyproject.toml for 5.5 planned
+#[tool.pytest]
+#    addopts = ["-ra", "--showlocals"]
+#    mock_use_standalone_module = true
+
+
+# -- COVERAGE CONFIG -------------------------------------------------------------------
+[tool.coverage]
+    [tool.coverage.run]
+        plugins = ["coverage_conditional_plugin"]
+        branch = true
+        parallel = true
+        source = ["src/"]
+        omit = [
+            "tests/*",
+            "docs/*",
+        ]
+
+    [tool.coverage.report]
+        fail_under = 100
+        skip_covered = false
+        show_missing = true
+        exclude_lines = [
+            "pragma: no cover",
+            "def __str__",
+            "def __repr__",
+            "if self.debug:",
+            "if settings.DEBUG",
+            "raise AssertionError",
+            "raise NotImplementedError",
+            "if 0:",
+            "if __name__ == .__main__.:",
+        ]
+        omit = [
+            "venv/*",
+            "tests/*",
+            "setup.py",
+            "*/__main__.py",
+        ]
+
+    [tool.coverage.paths]
+        source = [
+            "src/{{cookiecutter.project_slug}}",
+             "*/.tox/*/lib/python*/site-packages/{{cookiecutter.project_slug}}",
+             "*/.tox/pypy*/site-packages/{{cookiecutter.project_slug}}",
+             "*/.tox\\*\\Lib\\site-packages\\{{cookiecutter.project_slug}}",
+             "*/src/{{cookiecutter.project_slug}}",
+             "*\\src\\{{cookiecutter.project_slug}}",
+        ]
+
+    [tool.coverage.coverage_conditional_plugin.rules]
+        is_win = "sys_platform == 'win32'"
