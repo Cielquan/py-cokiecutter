@@ -14,102 +14,175 @@
 """
 #: pylint: disable=C0103
 import os
+import re
 import sys
 
-from datetime import datetime
+from datetime import date
 from pathlib import Path
+from typing import List, Optional
 
-import sphinx_rtd_theme  # type: ignore
+import sphinx_rtd_theme  # type: ignore[import]
 
 from {{ cookiecutter.project_slug }} import __version__
 
 
-#: Add Repo to path
-sys.path.insert(0, os.path.abspath("../.."))
+sys.path.insert(0, str(Path(__file__).parents[2]))  #: Add Repo to path
+needs_sphinx = "3.0"  #: Minimum Sphinx version to build the docs
 
-#: Vars
+#: -- GLOB VARS ------------------------------------------------------------------------
 CONF_DIR = Path(__file__)
-TODAY = datetime.today()
-YEAR = f"{TODAY.year}"
+YEAR = f"{date.today().year}"
+
+
+#: -- UTILS ----------------------------------------------------------------------------
+def get_release_level(version_str: str) -> Optional[str]:
+    """Extract release tag from version string."""
+    tag = re.search(r"^[v]?\d+\.\d+\.\d+[+-]?([a-zA-Z]*)\d*", version_str)
+    if tag:
+        return tag.group(1)
+    return ""
 
 
 #: -- PROJECT INFORMATION --------------------------------------------------------------
-
 project = "{{ cookiecutter.project_name }}"
 author = "{{ cookiecutter.full_name }}"
-release_year = "{{ cookiecutter.year }}"
-copyright = (  #: pylint: disable=W0622  # noqa:A001,VNE003
-    f"{release_year}{('-' + YEAR) if YEAR != release_year else ''}, "
-    + author
+RELEASE_YEAR = "{{ cookiecutter.year }}"
+copyright = (  # pylint: disable=W0622  # noqa: A001,VNE003
+    f"{RELEASE_YEAR}{('-' + YEAR) if YEAR != RELEASE_YEAR else ''}, " + author
 )
-#: The full version, including alpha/beta/rc tags
-release = __version__
-#: Major version like (X.Y)
-version = __version__[0:3]
-#: Release date
-release_date = f"{TODAY}"
+release = __version__  #: The full version, including alpha/beta/rc tags
+version = __version__[0:3]  #: Major + Minor version like (X.Y)
+RELEASE_LEVEL = get_release_level(__version__)  #: only tags like alpha/beta/rc
 
 
-#: -- SPHINX CONFIG --------------------------------------------------------------------
+#: -- GENERAL CONFIG -------------------------------------------------------------------
+extensions = []
+today_fmt = "%Y-%m-%d"
+exclude_patterns: List[str] = []  #: Files to exclude for source of doc
 
-#: Add any Sphinx extension module names here, as strings.
-extensions = [
-    "sphinx_rtd_theme",
-    "sphinx.ext.extlinks",
-    "sphinx.ext.intersphinx",
-    "sphinx.ext.viewcode",
-    # "sphinx.ext.autodoc",
-    # "sphinx_autodoc_typehints", # sphinx-autodoc-typehints
-    # "sphinx_click.ext", # sphinx-click
-]
+#: Added dirs for static and template files if they exist
+html_static_path = ["_static"] if Path(CONF_DIR, "_static").exists() else []
+templates_path = ["_templates"] if Path(CONF_DIR, "_templates").exists() else []
+
+rst_prolog = """
+.. ifconfig:: RELEASE_LEVEL in ('alpha', 'beta', 'rc')
+
+   .. warning::
+      The here documented release |release| is a prerelease.
+      Keep in mind that breaking changes can occur till the final release.
+
+      You may want to use the latest stable release instead.
+"""
+
+rst_epilog = """
+.. |br| raw:: html
+
+    <br/>
+"""
+
+tls_cacerts = os.getenv("SSL_CERT_FILE")
 
 
-#: -- LINKS ----------------------------------------------------------------------------
-
-#: Linkcheck - 1 Worker 5 Retries to fix 429 error
+#: -- LINKCHECK CONFIG -----------------------------------------------------------------
+#: 1 Worker 5 Retries to fix 429 error
 linkcheck_workers = 1
 linkcheck_retries = 5
 linkcheck_timeout = 30
 
-tls_cacerts = os.getenv("SSL_CERT_FILE")
 
+#: -- DEFAULT EXTENSIONS ---------------------------------------------------------------
+#: Global
+extensions.append("sphinx.ext.duration")
+extensions.append("sphinx.ext.coverage")  #: sphinx-build -b coverage ...
+coverage_write_headline = False
+coverage_show_missing_items = True
+extensions.append("sphinx.ext.doctest")  #: sphinx-build -b doctest ...
+
+#: ReStructuredText
+extensions.append("sphinx.ext.autosectionlabel")
+autosectionlabel_prefix_document = True
+extensions.append("sphinx.ext.ifconfig")
+extensions.append("sphinx.ext.viewcode")
+
+#: Links
+extensions.append("sphinx.ext.intersphinx")
 intersphinx_mapping = {"python": ("https://docs.python.org/3/", None)}
 
+extensions.append("sphinx.ext.extlinks")
 extlinks = {
     "issue": ("https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/issues/%s", "#"),
-    "pull": ("https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/pull/%s", "p"),
+    "pull": ("https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/pull/%s", "pr"),
     "user": ("https://github.com/%s", "@"),
 }
 
 
-#: -- FILES ----------------------------------------------------------------------------
+#: -- APIDOC ---------------------------------------------------------------------------
+try:
+    import sphinxcontrib.apidoc  # type: ignore  # pylint: disable=W0611  # noqa: F401
+except ModuleNotFoundError:
+    print("## 'sphinxcontrib-apidoc' extension not loaded - not installed")
+else:
+    extensions.append("sphinxcontrib.apidoc")
+apidoc_separate_modules = True
+apidoc_module_first = True
 
-#: Index source file
-master_doc = "index"
 
-#: Files to exclude for source of doc
-exclude_patterns = [".changes/*"]
+#: -- AUTODOC --------------------------------------------------------------------------
+extensions.append("sphinx.ext.autodoc")
+autodoc_typehints = "description"
+autodoc_member_order = "bysource"
+autodoc_mock_imports: List[str] = []
+autodoc_default_options = {"members": True}
 
-#: Folder for static files, if folder exists
-html_static_path = []
-if Path(CONF_DIR, "_static").exists():
-    html_static_path = ["_static"]
+try:
+    import sphinx_autodoc_typehints  # type: ignore # pylint: disable=W0611 # noqa: F401
+except ModuleNotFoundError:
+    print("## 'sphinx-autodoc-typehints' extension not loaded - not installed")
+else:
+    extensions.append("sphinx_autodoc_typehints")
 
-#: Folder for template files, if folder exists
-templates_path = []
-if Path(CONF_DIR, "_templates").exists():
-    templates_path = ["_templates"]
+
+def remove_module_docstring(
+    app, what, name, obj, options, lines
+):  # pylint: disable=R0913,W0613
+    """Remove module docstring."""
+    if what == "module":
+        del lines[:]
+
+
+#: -- CLICK ----------------------------------------------------------------------------
+try:
+    import sphinx_click.ext  # type: ignore  # pylint: disable=W0611  # noqa: F401
+except ModuleNotFoundError:
+    print("## 'sphinx-click' extension not loaded - not installed")
+else:
+    extensions.append("sphinx_click.ext")
+
+
+#: -- HTML THEME -----------------------------------------------------------------------
+#: needs install: "sphinx-rtd-theme"
+extensions.append("sphinx_rtd_theme")
+html_theme = "sphinx_rtd_theme"
+html_theme_options = {"style_external_links": True}
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 
 #: -- HTML OUTPUT ----------------------------------------------------------------------
+html_last_updated_fmt = today_fmt
+html_show_sourcelink = True  #: Add links to *.rst source files on HTML pages
+html_logo = None  # CHANGE ME
+html_favicon = None  # CHANGE ME
 
-#: Theme
-html_theme = "sphinx_rtd_theme"
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
-html_last_updated_fmt = TODAY.isoformat()
 
-#: Add links to *.rst source files on HTML pages
-html_show_sourcelink = True
+#: -- LaTeX OUTPUT ---------------------------------------------------------------------
+latex_logo = html_logo
+latex_show_pagerefs = True
+latex_show_urls = "footnote"
 
-#: Pygments syntax highlighting style
-pygments_style = "sphinx"
+
+#: -- FINAL SETUP ----------------------------------------------------------------------
+def setup(app):
+    """Connect custom func to sphinx events."""
+    app.connect("autodoc-process-docstring", remove_module_docstring)
+
+    app.add_config_value("RELEASE_LEVEL", "", "env")
