@@ -131,7 +131,3 @@ version.py
 # Local backup dir
 _backupfiles
 .backupfiles
-{% if cookiecutter.layout == "lib" %}
-# Poetry lock file
-poetry.lock
-{%- endif %}
