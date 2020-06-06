@@ -12,7 +12,7 @@
     :copyright: (c) {{ cookiecutter.year }} {{ cookiecutter.full_name }}
     {%- endif %}
 """
-#: pylint: disable=C0103
+#: pylint: disable=C0103,W0611
 import os
 import re
 import sys
@@ -118,7 +118,7 @@ extlinks = {
 
 #: -- APIDOC ---------------------------------------------------------------------------
 try:
-    import sphinxcontrib.apidoc  # type: ignore  # pylint: disable=W0611  # noqa: F401
+    import sphinxcontrib.apidoc  # type: ignore[import]  # noqa: F401
 except ModuleNotFoundError:
     print("## 'sphinxcontrib-apidoc' extension not loaded - not installed")
 else:
@@ -135,7 +135,7 @@ autodoc_mock_imports: List[str] = []
 autodoc_default_options = {"members": True}
 
 try:
-    import sphinx_autodoc_typehints  # type: ignore # pylint: disable=W0611 # noqa: F401
+    import sphinx_autodoc_typehints  # type: ignore[import]  # noqa: F401
 except ModuleNotFoundError:
     print("## 'sphinx-autodoc-typehints' extension not loaded - not installed")
 else:
@@ -152,7 +152,7 @@ def remove_module_docstring(
 
 #: -- CLICK ----------------------------------------------------------------------------
 try:
-    import sphinx_click.ext  # type: ignore  # pylint: disable=W0611  # noqa: F401
+    import sphinx_click.ext  # type: ignore[import]  # noqa: F401
 except ModuleNotFoundError:
     print("## 'sphinx-click' extension not loaded - not installed")
 else:
