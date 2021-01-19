@@ -1,68 +1,67 @@
-# noqa: D205,D208,D400
 """
     docs.source.conf
     ~~~~~~~~~~~~~~~~
 
     Configuration file for the Sphinx documentation builder.
 
-    {% if cookiecutter.license != "Not open source" -%}
-    :copyright: (c) {{ cookiecutter.year }} {{ cookiecutter.full_name }}
-    :license: {{ cookiecutter.license }}, see LICENSE.rst for more details
-    {%- else -%}
-    :copyright: (c) {{ cookiecutter.year }} {{ cookiecutter.full_name }}
-    {%- endif %}
-"""
-#: pylint: disable=C0103,W0611
+    :copyright: (c) {{cookiecutter.year}}, {{cookiecutter.full_name}} and AUTHORS
+    :license: {{cookiecutter.license}}, see LICENSE for details
+"""  # noqa: D205,D208,D400
 import os
 import re
-import sys
+import shutil
 
 from datetime import date
+from importlib.util import find_spec
 from pathlib import Path
-from typing import List, Optional
+from typing import List
 
 import sphinx_rtd_theme  # type: ignore[import]
 
-from {{ cookiecutter.project_slug }} import __version__
+from sphinx.application import Sphinx
+
+from {{cookiecutter.project_slug}} import (
+    __author__,
+    __gh_repository_link__,
+    __project__,
+    __version__,
+)
 
 
-sys.path.insert(0, str(Path(__file__).parents[2]))  #: Add Repo to path
-needs_sphinx = "3.0"  #: Minimum Sphinx version to build the docs
+needs_sphinx = "3.1"  #: Minimum Sphinx version to build the docs
+
 
 #: -- GLOB VARS ------------------------------------------------------------------------
-CONF_DIR = Path(__file__)
-YEAR = f"{date.today().year}"
-
-
-#: -- UTILS ----------------------------------------------------------------------------
-def get_release_level(version_str: str) -> Optional[str]:
-    """Extract release tag from version string."""
-    tag = re.search(r"^[v]?\d+\.\d+\.\d+[+-]?([a-zA-Z]*)\d*", version_str)
-    if tag:
-        return tag.group(1)
-    return ""
+NOT_LOADED_MSGS = []
 
 
 #: -- PROJECT INFORMATION --------------------------------------------------------------
-project = "{{ cookiecutter.project_name }}"
-author = "{{ cookiecutter.full_name }}"
-RELEASE_YEAR = "{{ cookiecutter.year }}"
-copyright = (  # pylint: disable=W0622  # noqa: A001,VNE003
-    f"{RELEASE_YEAR}{('-' + YEAR) if YEAR != RELEASE_YEAR else ''}, " + author
+project = __project__.replace("-", "_")
+author = __author__
+CREATION_YEAR = {{cookiecutter.year}}
+CURRENT_YEAR = f"{date.today().year}"
+copyright = (  # noqa: VNE003
+    f"{CREATION_YEAR}{('-' + CURRENT_YEAR) if CURRENT_YEAR != CREATION_YEAR else ''}, "
+    + f"{author} and AUTHORS"
 )
 release = __version__  #: The full version, including alpha/beta/rc tags
-version = __version__[0:3]  #: Major + Minor version like (X.Y)
-RELEASE_LEVEL = get_release_level(__version__)  #: only tags like alpha/beta/rc
+version_parts = re.search(
+    r"^v?(?P<version>\d+\.\d+)\.\d+[-.]?(?P<tag>[a-z]*)[\.]?\d*", release
+)
+#: Major + Minor version like (X.Y)
+version = None if not version_parts else version_parts.group("version")
+#: only tags like alpha/beta/rc
+RELEASE_LEVEL = None if not version_parts else version_parts.group("tag")
 
 
 #: -- GENERAL CONFIG -------------------------------------------------------------------
-extensions = []
+extensions: List[str] = []
 today_fmt = "%Y-%m-%d"
 exclude_patterns: List[str] = []  #: Files to exclude for source of doc
 
 #: Added dirs for static and template files if they exist
-html_static_path = ["_static"] if Path(CONF_DIR, "_static").exists() else []
-templates_path = ["_templates"] if Path(CONF_DIR, "_templates").exists() else []
+html_static_path = ["_static"] if Path("_static").exists() else []
+templates_path = ["_templates"] if Path("_templates").exists() else []
 
 rst_prolog = """
 .. ifconfig:: RELEASE_LEVEL in ('alpha', 'beta', 'rc')
@@ -83,6 +82,11 @@ rst_epilog = """
 tls_cacerts = os.getenv("SSL_CERT_FILE")
 
 
+#: -- M2R2 -----------------------------------------------------------------------------
+extensions.append("m2r2")
+source_suffix = [".rst", ".md"]
+
+
 #: -- LINKCHECK CONFIG -----------------------------------------------------------------
 #: 1 Worker 5 Retries to fix 429 error
 linkcheck_workers = 1
@@ -101,30 +105,43 @@ extensions.append("sphinx.ext.doctest")  #: sphinx-build -b doctest ...
 #: ReStructuredText
 extensions.append("sphinx.ext.autosectionlabel")
 autosectionlabel_prefix_document = True
+autosectionlabel_maxdepth = 2
 extensions.append("sphinx.ext.ifconfig")
 extensions.append("sphinx.ext.viewcode")
 
 #: Links
 extensions.append("sphinx.ext.intersphinx")
+# NOTE: to inspect .inv files: https://github.com/bskinn/sphobjinv
 intersphinx_mapping = {"python": ("https://docs.python.org/3/", None)}
 
 extensions.append("sphinx.ext.extlinks")
 extlinks = {
-    "issue": ("https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/issues/%s", "#"),
-    "pull": ("https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/pull/%s", "pr"),
+    "repo": (f"{__gh_repository_link__}/%s", "Repo's "),
+    "issue": (f"{__gh_repository_link__}/issues/%s", "#"),
+    "pull": (f"{__gh_repository_link__}/pull/%s", "pr"),
     "user": ("https://github.com/%s", "@"),
 }
 
 
 #: -- APIDOC ---------------------------------------------------------------------------
-try:
-    import sphinxcontrib.apidoc  # type: ignore[import]  # noqa: F401
-except ModuleNotFoundError:
-    print("## 'sphinxcontrib-apidoc' extension not loaded - not installed")
-else:
-    extensions.append("sphinxcontrib.apidoc")
-apidoc_separate_modules = True
+apidoc_module_dir = f"../../src/{project}/"
+apidoc_output_dir = "autoapidoc"
+apidoc_toc_file = False
+apidoc_separate_modules = False
 apidoc_module_first = True
+apidoc_extra_args = []
+if Path("_apidoc_templates").is_dir():
+    apidoc_extra_args += ["--templatedir", "apidoc_templates"]
+
+
+if find_spec("sphinxcontrib.apidoc") is not None:
+    extensions.append("sphinxcontrib.apidoc")
+    if Path(apidoc_output_dir).is_dir():
+        shutil.rmtree(apidoc_output_dir)
+else:
+    NOT_LOADED_MSGS.append(
+        "## 'sphinxcontrib-apidoc' extension not loaded - not installed"
+    )
 
 
 #: -- AUTODOC --------------------------------------------------------------------------
@@ -134,55 +151,56 @@ autodoc_member_order = "bysource"
 autodoc_mock_imports: List[str] = []
 autodoc_default_options = {"members": True}
 
-try:
-    import sphinx_autodoc_typehints  # type: ignore[import]  # noqa: F401
-except ModuleNotFoundError:
-    print("## 'sphinx-autodoc-typehints' extension not loaded - not installed")
-else:
-    extensions.append("sphinx_autodoc_typehints")
 
-
-def remove_module_docstring(
-    app, what, name, obj, options, lines
-):  # pylint: disable=R0913,W0613
+def _remove_module_docstring(  # noqa: R0913
+    app, what, name, obj, options, lines  # noqa: ANN001,W0613
+) -> None:
     """Remove module docstring."""
     if what == "module":
         del lines[:]
 
 
-#: -- CLICK ----------------------------------------------------------------------------
-try:
-    import sphinx_click.ext  # type: ignore[import]  # noqa: F401
-except ModuleNotFoundError:
-    print("## 'sphinx-click' extension not loaded - not installed")
+if find_spec("sphinx_autodoc_typehints") is not None:
+    extensions.append("sphinx_autodoc_typehints")
 else:
-    extensions.append("sphinx_click.ext")
+    NOT_LOADED_MSGS.append(
+        "## 'sphinx-autodoc-typehints' extension not loaded - not installed"
+    )
+
+
+#: -- SPELLING -------------------------------------------------------------------------
+spelling_word_list_filename = "spelling_dict.txt"
+spelling_show_suggestions = True
+spelling_exclude_patterns = ["autoapi/**", "autoapidoc/**"]
+
+if find_spec("sphinxcontrib.spelling") is not None:
+    extensions.append("sphinxcontrib.spelling")
+else:
+    NOT_LOADED_MSGS.append(
+        "## 'sphinxcontrib-spelling' extension not loaded - not installed"
+    )
 
 
 #: -- HTML THEME -----------------------------------------------------------------------
 #: needs install: "sphinx-rtd-theme"
 extensions.append("sphinx_rtd_theme")
 html_theme = "sphinx_rtd_theme"
-html_theme_options = {"style_external_links": True}
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+html_theme_options = {"style_external_links": True}
 
 
 #: -- HTML OUTPUT ----------------------------------------------------------------------
 html_last_updated_fmt = today_fmt
 html_show_sourcelink = True  #: Add links to *.rst source files on HTML pages
-html_logo = None  # CHANGE ME
-html_favicon = None  # CHANGE ME
-
-
-#: -- LaTeX OUTPUT ---------------------------------------------------------------------
-latex_logo = html_logo
-latex_show_pagerefs = True
-latex_show_urls = "footnote"
 
 
 #: -- FINAL SETUP ----------------------------------------------------------------------
-def setup(app):
+def setup(app: Sphinx) -> None:
     """Connect custom func to sphinx events."""
-    app.connect("autodoc-process-docstring", remove_module_docstring)
+    app.connect("autodoc-process-docstring", _remove_module_docstring)
 
     app.add_config_value("RELEASE_LEVEL", "", "env")
+
+
+for msg in NOT_LOADED_MSGS:
+    print(msg)

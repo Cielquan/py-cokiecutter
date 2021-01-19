@@ -1,49 +1,44 @@
+.. highlight:: console
+
 Installation
 ============
 
-
-Stable release
---------------
-
-To install {{ cookiecutter.project_name }}, run this command in your terminal:
-
-.. code-block:: console
-
-    $ pip install {{ cookiecutter.project_slug }}
-
-This is the preferred method to install {{ cookiecutter.project_name }}, as it will
-always install the most recent stable release.
+This part of the documentation covers how to install the package.
+It is recommended to install the package in a virtual environment.
 
 
-From source
------------
+Create virtual environment
+--------------------------
+There are several packages/modules for creating python virtual environments.
+Here is a
+`manual <https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/>`__
+by the PyPA.
 
-The source for {{ cookiecutter.project_name }} can be downloaded from the `Github repo`_.
 
-You can either clone the public repository:
+Installation from PyPI
+----------------------
 
-.. code-block:: console
+You can simply install the package from PyPI::
 
-    $ git clone git://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_lower_case }}
+    $ pip install {{cookiecutter.project_slug}}
 
-Or download the `tarball`_:
 
-.. code-block:: console
+Installation from source
+------------------------
+You can install SpotInkCalc directly from a Git repository clone. This can be done
+either by cloning the repository and installing from the local clone::
 
-    $ curl -OJL https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_lower_case }}/tarball/master
-
-Once you have a copy of the source, you can install directly with pip:
-
-.. code-block:: console
-
+    $ git clone https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}.git
+    $ cd python_test
     $ pip install .
 
 
-You can also grab the repo in either `tar.gz`__ or `zip`__ format.
-After downloading and extracting you can install it with :command:`pip` like above.
+Or installing directly via git::
+
+    $ pip install git+https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}.git
 
 
-.. _Github repo: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_lower_case }}
-.. _tarball: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_lower_case }}/tarball/master
-.. __: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_lower_case }}/archive/master.tar.gz
-.. __: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_lower_case }}/archive/master.zip
+You can also download the current version as `tar.gz` or `zip` file, extract it and
+install it with pip like above.
+
+.. highlight:: default

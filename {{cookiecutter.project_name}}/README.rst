@@ -2,151 +2,147 @@
 {{ cookiecutter.project_name }}
 {{ "=" * cookiecutter.project_name|length }}
 
++-------------------+---------------------------------------------------------------------------------------------+
+| **General**       | |maintenance_n| |license| |rtd|                                                             |
+|                   +---------------------------------------------------------------------------------------------+
+|                   | |semver|                                                                                    |
++-------------------+---------------------------------------------------------------------------------------------+
+| **PyPI**          | |pypi_release| |pypi_py_versions| |pypi_implementations|                                    |
+|                   +---------------------------------------------------------------------------------------------+
+|                   | |pypi_status| |pypi_format| |pypi_downloads|                                                |
++-------------------+---------------------------------------------------------------------------------------------+
+| **Pipeline**      | |gha_test_code| |codeclimate_cov|                                                           |
+|                   +---------------------------------------------------------------------------------------------+
+|                   | |gha_code_quality| |pre-commit-ci| |codeclimate_maintain|                                   |
+|                   +---------------------------------------------------------------------------------------------+
+|                   | |gha_test_docs| |gha_dep_safety| |dependabot|                                               |
++-------------------+---------------------------------------------------------------------------------------------+
+| **Github**        | |gh_release| |gh_commits_since| |gh_last_commit|                                            |
+|                   +---------------------------------------------------------------------------------------------+
+|                   | |gh_stars| |gh_forks| |gh_contributors| |gh_watchers|                                       |
++-------------------+---------------------------------------------------------------------------------------------+
+
+
 {{ cookiecutter.project_short_description }}
 
-+---------------+----------------------------------------------------------------------+
-| **General**   | |maintenance| |license| |black| |rtd|                                |
-+---------------+----------------------------------------------------------------------+
-| **Pipeline**  | |travis| |appveyor| |codecov|                                        |
-+---------------+----------------------------------------------------------------------+
-| **Tools**     | |poetry| |tox| |pytest| |sphinx|                                     |
-+---------------+----------------------------------------------------------------------+
-| **VC**        | |vcs| |gpg| |semver| |pre-commit|                                    |
-+---------------+----------------------------------------------------------------------+
-| **Github**    | |gh_release| |gh_commits_since| |gh_last_commit|                     |
-|               +----------------------------------------------------------------------+
-|               | |gh_stars| |gh_forks| |gh_contributors| |gh_watchers|                |
-+---------------+----------------------------------------------------------------------+
-| **PyPI**      | |pypi_release| |pypi_py_versions| |pypi_implementations|             |
-|               +----------------------------------------------------------------------+
-|               | |pypi_status| |pypi_format| |pypi_downloads|                         |
-+---------------+----------------------------------------------------------------------+
 
-{% if cookiecutter.license != 'Not open source' -%}
-Documentation: https://{{ cookiecutter.project_lower_case }}.readthedocs.io.
+.. ############################### LINKS FOR BADGES ###############################
 
-{% endif %}
-.. .############################### LINKS ###############################
+
+.. Change badges in docs/source/_badges.rst also
+
 
 .. General
-.. |maintenance| image:: https://img.shields.io/badge/No%20Maintenance%20Intended-X-red.svg?style=flat-square
+
+.. |maintenance_n| image:: https://img.shields.io/badge/Maintenance%20Intended-✖-red.svg?style=flat-square
     :target: http://unmaintained.tech/
     :alt: Maintenance - not intended
 
+.. |maintenance_y| image:: https://img.shields.io/badge/Maintenance%20Intended-✔-green.svg?style=flat-square
+    :target: http://unmaintained.tech/
+    :alt: Maintenance - intended
+
 .. |license| image:: https://img.shields.io/github/license/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}.svg?style=flat-square&label=License
+    :target: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/blob/master/LICENSE
     :alt: License
-    :target: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/blob/master/LICENSE.rst
 
-.. |black| image:: https://img.shields.io/badge/Code%20Style-black-000000.svg?style=flat-square
-    :alt: Code Style - Black
-    :target: https://github.com/psf/black
-
-.. |rtd| image:: https://img.shields.io/readthedocs/{{cookiecutter.project_lower_case}}/latest.svg?style=flat-square&logo=read-the-docs&logoColor=white
+.. |rtd| image:: https://img.shields.io/readthedocs/{{cookiecutter.project_lower_case}}/latest.svg?style=flat-square&logo=read-the-docs&logoColor=white&label=Read%20the%20Docs
+    :target: https://{{cookiecutter.project_lower_case}}.readthedocs.io/en/latest/
     :alt: Read the Docs - Build Status (latest)
-    :target: https://{{cookiecutter.project_lower_case}}.readthedocs.io/en/latest/?badge=latest
 
-
-.. Pipeline
-.. |travis| image:: https://img.shields.io/travis/com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/master.svg?style=flat-square&logo=travis-ci&logoColor=FBE072
-    :alt: Travis - Build Status
-    :target: https://travis-ci.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}
-
-.. |appveyor| image:: https://img.shields.io/appveyor/ci/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/master.svg?style=flat-square&logo=appveyor
-    :alt: AppVeyor - Build Status
-    :target: https://ci.appveyor.com/project/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}
-
-.. |codecov| image:: https://img.shields.io/codecov/c/github/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/master.svg?style=flat-square&logo=codecov
-    :alt: Codecov - Test Coverage
-    :target: https://codecov.io/gh/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}
-
-
-.. Tools
-.. |poetry| image:: https://img.shields.io/badge/Packaging-poetry-brightgreen.svg?style=flat-square
-    :target: https://python-poetry.org/
-    :alt: Poetry
-
-.. |tox| image:: https://img.shields.io/badge/Automation-tox-brightgreen.svg?style=flat-square
-    :target: https://tox.readthedocs.io/en/latest/
-    :alt: tox
-
-.. |pytest| image:: https://img.shields.io/badge/Test%20framework-pytest-brightgreen.svg?style=flat-square
-    :target: https://docs.pytest.org/en/latest/
-    :alt: Pytest
-
-.. |sphinx| image:: https://img.shields.io/badge/Doc%20builder-sphinx-brightgreen.svg?style=flat-square
-    :target: https://www.sphinx-doc.org/en/latest/
-    :alt: Sphinx
-
-
-.. VC
-.. |vcs| image:: https://img.shields.io/badge/VCS-git-orange.svg?style=flat-square&logo=git
-    :target: https://git-scm.com/
-    :alt: VCS
-
-.. |gpg| image:: https://img.shields.io/badge/GPG-signed-blue.svg?style=flat-square&logo=gnu-privacy-guard
-    :target: https://gnupg.org/
-    :alt: Website
-
-.. |semver| image:: https://img.shields.io/badge/Versioning-semantic-brightgreen.svg?style=flat-square
-    :alt: Versioning - semantic
+.. |semver| image:: https://img.shields.io/badge/Semantic%20Versioning-2.0.0-brightgreen.svg?style=flat-square
     :target: https://semver.org/
-
-.. |pre-commit| image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?style=flat-square&logo=pre-commit&logoColor=yellow
-    :target: https://github.com/pre-commit/pre-commit
-    :alt: pre-commit
-
-
-.. Github
-.. |gh_release| image:: https://img.shields.io/github/v/release/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}.svg?style=flat-square&logo=github
-    :alt: Github - Latest Release
-    :target: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/releases/latest
-
-.. |gh_commits_since| image:: https://img.shields.io/github/commits-since/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/latest.svg?style=flat-square&logo=github
-    :alt: Github - Commits since latest release
-    :target: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/commits/master
-
-.. |gh_last_commit| image:: https://img.shields.io/github/last-commit/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}.svg?style=flat-square&logo=github
-    :alt: Github - Last Commit
-    :target: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/commits/master
-
-.. |gh_stars| image:: https://img.shields.io/github/stars/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}.svg?style=flat-square&logo=github
-    :alt: Github - Stars
-    :target: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/stargazers
-
-.. |gh_forks| image:: https://img.shields.io/github/forks/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}.svg?style=flat-square&logo=github
-    :alt: Github - Forks
-    :target: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/network/members
-
-.. |gh_contributors| image:: https://img.shields.io/github/contributors/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}.svg?style=flat-square&logo=github
-    :alt: Github - Contributors
-    :target: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/graphs/contributors
-
-.. |gh_watchers| image:: https://img.shields.io/github/watchers/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}.svg?style=flat-square&logo=github
-    :alt: Github - Watchers
-    :target: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/watchers
+    :alt: Semantic Versioning - 2.0.0
 
 
 .. PyPI
+
 .. |pypi_release| image:: https://img.shields.io/pypi/v/{{cookiecutter.project_lower_case}}.svg?style=flat-square&logo=pypi&logoColor=FBE072
-    :alt: PyPI - Package latest release
     :target: https://pypi.org/project/{{cookiecutter.project_lower_case}}/
+    :alt: PyPI - Package latest release
 
 .. |pypi_py_versions| image:: https://img.shields.io/pypi/pyversions/{{cookiecutter.project_lower_case}}.svg?style=flat-square&logo=python&logoColor=FBE072
-    :alt: PyPI - Python versions supported
     :target: https://pypi.org/project/{{cookiecutter.project_lower_case}}/
+    :alt: PyPI - Supported Python Versions
 
 .. |pypi_implementations| image:: https://img.shields.io/pypi/implementation/{{cookiecutter.project_lower_case}}.svg?style=flat-square&logo=python&logoColor=FBE072
-    :alt: PyPI - Implementations supported
     :target: https://pypi.org/project/{{cookiecutter.project_lower_case}}/
+    :alt: PyPI - Supported Implementations
 
 .. |pypi_status| image:: https://img.shields.io/pypi/status/{{cookiecutter.project_lower_case}}.svg?style=flat-square&logo=pypi&logoColor=FBE072
-    :alt: PyPI - Package stability
     :target: https://pypi.org/project/{{cookiecutter.project_lower_case}}/
+    :alt: PyPI - Stability
 
 .. |pypi_format| image:: https://img.shields.io/pypi/format/{{cookiecutter.project_lower_case}}.svg?style=flat-square&logo=pypi&logoColor=FBE072
-    :alt: PyPI - Format
     :target: https://pypi.org/project/{{cookiecutter.project_lower_case}}/
+    :alt: PyPI - Format
 
 .. |pypi_downloads| image:: https://img.shields.io/pypi/dm/{{cookiecutter.project_lower_case}}.svg?style=flat-square&logo=pypi&logoColor=FBE072
     :target: https://pypi.org/project/{{cookiecutter.project_lower_case}}/
     :alt: PyPI - Monthly downloads
+
+
+.. Pipeline
+
+.. |gha_test_code| image:: https://img.shields.io/github/workflow/status/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/Test%20code/master?style=flat-square&logo=github&label=Test%20code
+    :target: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/actions?query=workflow%3A%22Test+code%22
+    :alt: GitHub Actions - Test code
+
+.. |codeclimate_cov| image:: https://img.shields.io/codeclimate/coverage/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}?style=flat-square&logo=code-climate
+    :target: https://codeclimate.com/github/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}
+    :alt: Code Climate - Coverage
+
+.. |gha_code_quality| image:: https://img.shields.io/github/workflow/status/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/Code%20qualitiy/master?style=flat-square&logo=github&label=Code%20qualitiy
+    :target: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/actions?query=workflow%3A%22Code+qualitiy%22
+    :alt: GitHub Actions - Code qualitiy
+
+.. |pre-commit-ci| image:: https://results.pre-commit.ci/badge/github/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/master.svg
+   :target: https://results.pre-commit.ci/latest/github/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/master
+   :alt: pre-commit.ci status
+
+.. |codeclimate_maintain| image:: https://img.shields.io/codeclimate/maintainability/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}?style=flat-square&logo=code-climate
+    :target: https://codeclimate.com/github/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}
+    :alt: Code Climate - Maintainability
+
+.. |gha_test_docs| image:: https://img.shields.io/github/workflow/status/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/Test%20documentation/master?style=flat-square&logo=github&label=Test%20documentation
+    :target: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/actions?query=workflow%3A%22Test+documentation%22
+    :alt: GitHub Actions - Test docs
+
+.. |gha_dep_safety| image:: https://img.shields.io/github/workflow/status/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/Dependency%20safety/master?style=flat-square&logo=github&label=Dependency%20safety
+    :target: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/actions?query=workflow%3A%22Dependency+safety%22
+    :alt: GitHub Actions - Dependency safety
+
+.. |dependabot| image:: https://api.dependabot.com/badges/status?host=github&repo=Cielquan/{{cookiecutter.project_lower_case}}
+    :target: https://dependabot.com
+    :alt: Dependabot status
+
+
+.. GitHub
+
+.. |gh_release| image:: https://img.shields.io/github/v/release/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}.svg?style=flat-square&logo=github
+    :target: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/releases/latest
+    :alt: Github - Latest Release
+
+.. |gh_commits_since| image:: https://img.shields.io/github/commits-since/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/latest.svg?style=flat-square&logo=github
+    :target: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/commits/master
+    :alt: GitHub - Commits since latest release
+
+.. |gh_last_commit| image:: https://img.shields.io/github/last-commit/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}.svg?style=flat-square&logo=github
+    :target: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/commits/master
+    :alt: GitHub - Last Commit
+
+.. |gh_stars| image:: https://img.shields.io/github/stars/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}.svg?style=flat-square&logo=github
+    :target: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/stargazers
+    :alt: Github - Stars
+
+.. |gh_forks| image:: https://img.shields.io/github/forks/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}.svg?style=flat-square&logo=github
+    :target: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/network/members
+    :alt: Github - Forks
+
+.. |gh_contributors| image:: https://img.shields.io/github/contributors/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}.svg?style=flat-square&logo=github
+    :target: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/graphs/contributors
+    :alt: Github - Contributors
+
+.. |gh_watchers| image:: https://img.shields.io/github/watchers/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}.svg?style=flat-square&logo=github
+    :target: https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/watchers/
+    :alt: Github - Watchers

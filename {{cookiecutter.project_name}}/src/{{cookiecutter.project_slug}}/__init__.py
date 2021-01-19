@@ -5,74 +5,39 @@
 
     {{cookiecutter.project_short_description}}
 
-    {% if cookiecutter.license != "Not open source" -%}
-    :copyright: (c) {{ cookiecutter.year }} {{ cookiecutter.full_name }}
-    :license: {{ cookiecutter.license }}, see LICENSE.rst for more details
-    {%- else -%}
-    :copyright: (c) {{ cookiecutter.year }} {{ cookiecutter.full_name }}
-    {%- endif %}
+    :copyright: (c) {{cookiecutter.year}}, {{cookiecutter.full_name}} and AUTHORS
+    :license: {{cookiecutter.license}}, see LICENSE for details
+"""  # noqa: D205,D208,D400
+from typing import List
 
-    This file is part of the project/program
-    '{{ cookiecutter.project_name }}'.
-{%- if cookiecutter.license == "GPL-3.0" %}
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
-{%- elif cookiecutter.license == "LGPL-3.0" %}
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
-{%- elif cookiecutter.license == "MIT" %}
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the MIT License as published by
-    the Massachusetts Institute of Technology.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    MIT License for more details.
-
-    You should have received a copy of the MIT License
-    along with this program. If not, see <https://opensource.org/licenses/MIT>.
-{%- elif cookiecutter.license == "BSD3" %}
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the BSD 3-Clause License as published by
-    the Regents of the University of California.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    BSD 3-Clause License for more details.
-
-    You should have received a copy of the BSD 3-Clause License
-    along with this program. If not, see <https://opensource.org/licenses/BSD-3-Clause>.
-{%- endif %}
-"""
 try:
-    from importlib.metadata import version
-except ModuleNotFoundError:
-    from importlib_metadata import version  # type: ignore[import,no-redef]
+    from importlib.metadata import metadata as get_md
+except ModuleNotFoundError:  # pragma: py-gte-38
+    from importlibmetadata import metadata as get_md  # type: ignore[import,no-redef]
 
-__version__ = version(__name__)
+
+def _get_gh_repo_link(metadata_list: List[str]) -> str:
+    #: Extract Project-URLs from metadata
+    urls = (line[13:] for line in metadata_list if line.startswith("Project-URL"))
+    url_map = {url[: url.find(",")]: url[url.find("http") :] for url in urls}
+
+    #: Search for and set a link to Github repo
+    for cat in ("Github", "Repository", "Source", "Code", "Homepage"):
+        if cat in url_map:
+            return url_map[cat].rstrip("/")
+
+    raise AttributeError("Metadata does not contain a link to source code on github.")
+
+
+metadata = get_md(__name__)
+
+
+__author__ = metadata["Author"]
+__license__ = metadata["License"]
+__project__ = metadata["Name"]
+__version__ = metadata["Version"]
+version_info = tuple(__version__.split("."))
+
+__gh_repository_link__ = _get_gh_repo_link(str(metadata).split("\n"))
+__gh_repository__ = __gh_repository_link__.replace("https://github.com/", "")

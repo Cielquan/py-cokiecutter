@@ -4,10 +4,10 @@
 Welcome to {{ cookiecutter.project_name }}'s documentation!
 {{ "=" * (11 + cookiecutter.project_name|length + 17) }}
 
-{{ cookiecutter.project_short_description }}
-
-
 .. include:: _badges.rst
+
+
+{{ cookiecutter.project_short_description }}
 
 
 .. toctree::
@@ -20,7 +20,16 @@ Welcome to {{ cookiecutter.project_name }}'s documentation!
 
 .. toctree::
    :maxdepth: 2
+   :caption: API Reference:
+
+   api
+
+
+.. toctree::
+   :maxdepth: 2
    :caption: Miscellaneous:
 
+   contribution/index
    changelog
+   authors
    license
