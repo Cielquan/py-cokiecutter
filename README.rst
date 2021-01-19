@@ -1,6 +1,3 @@
-.. This file 'README.rst' created 2020-02-01 is part of the project/program 'py_cookiecutter'.
-.. Copyright (c) 2020 Christian Riedel, see LICENSE for more details
-
 py_cookiecutter
 ===============
 
