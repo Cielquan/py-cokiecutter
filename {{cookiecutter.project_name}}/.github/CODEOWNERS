@@ -1,0 +1,4 @@
+* @{{cookiecutter.github_username}}
+
+/.github/workflows/ @{{cookiecutter.github_username}}
+/.github/CODEOWNERS @{{cookiecutter.github_username}}
