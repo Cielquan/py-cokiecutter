@@ -54,23 +54,23 @@ jobs:
       contains(toJson(github.event.head_commit.message), '[skip ci]') == false)
     runs-on: ubuntu-latest
     outputs:
-      default_py_version: ${{ steps.get-config.outputs.default_python_version }}
-      test_os: ${{ steps.get-config.outputs.test_os }}
-      test_py_version_win32: ${{ steps.get-config.outputs.test_py_vers_win32 }}
-      test_py_version_darwin: ${{ steps.get-config.outputs.test_py_vers_darwin }}
-      test_py_version_linux: ${{ steps.get-config.outputs.test_py_vers_linux }}
-      test_python_versions: ${{ steps.get-config.outputs.test_python_versions }}
-      test_python_version_1: ${{ steps.get-config.outputs.test_python_version_1 }}
-      test_python_version_2: ${{ steps.get-config.outputs.test_python_version_2 }}
-      test_python_version_3: ${{ steps.get-config.outputs.test_python_version_3 }}
-      test_python_version_4: ${{ steps.get-config.outputs.test_python_version_4 }}
-      test_python_version_5: ${{ steps.get-config.outputs.test_python_version_5 }}
-      test_python_version_6: ${{ steps.get-config.outputs.test_python_version_6 }}
-      test_python_version_7: ${{ steps.get-config.outputs.test_python_version_7 }}
-      test_python_version_8: ${{ steps.get-config.outputs.test_python_version_8 }}
-      test_python_version_9: ${{ steps.get-config.outputs.test_python_version_9 }}
-      test_python_version_10: ${{ steps.get-config.outputs.test_python_version_10 }}
-      cc_test_reporter_url: ${{ steps.get-config.outputs.reporter_url }}
+      default_py_version: {{'${{'}} steps.get-config.outputs.default_python_version {{'}}'}}
+      test_os: {{'${{'}} steps.get-config.outputs.test_os {{'}}'}}
+      test_py_version_win32: {{'${{'}} steps.get-config.outputs.test_py_vers_win32 {{'}}'}}
+      test_py_version_darwin: {{'${{'}} steps.get-config.outputs.test_py_vers_darwin {{'}}'}}
+      test_py_version_linux: {{'${{'}} steps.get-config.outputs.test_py_vers_linux {{'}}'}}
+      test_python_versions: {{'${{'}} steps.get-config.outputs.test_python_versions {{'}}'}}
+      test_python_version_1: {{'${{'}} steps.get-config.outputs.test_python_version_1 {{'}}'}}
+      test_python_version_2: {{'${{'}} steps.get-config.outputs.test_python_version_2 {{'}}'}}
+      test_python_version_3: {{'${{'}} steps.get-config.outputs.test_python_version_3 {{'}}'}}
+      test_python_version_4: {{'${{'}} steps.get-config.outputs.test_python_version_4 {{'}}'}}
+      test_python_version_5: {{'${{'}} steps.get-config.outputs.test_python_version_5 {{'}}'}}
+      test_python_version_6: {{'${{'}} steps.get-config.outputs.test_python_version_6 {{'}}'}}
+      test_python_version_7: {{'${{'}} steps.get-config.outputs.test_python_version_7 {{'}}'}}
+      test_python_version_8: {{'${{'}} steps.get-config.outputs.test_python_version_8 {{'}}'}}
+      test_python_version_9: {{'${{'}} steps.get-config.outputs.test_python_version_9 {{'}}'}}
+      test_python_version_10: {{'${{'}} steps.get-config.outputs.test_python_version_10 {{'}}'}}
+      cc_test_reporter_url: {{'${{'}} steps.get-config.outputs.reporter_url {{'}}'}}
     steps:
       - uses: actions/checkout@v2
 
@@ -147,14 +147,14 @@ jobs:
     #: Based on: https://github.com/paambaati/codeclimate-action/blob/26b4414184dd6928c7c8b474732a2dce632925c9/src/main.ts#L39
     runs-on: ubuntu-latest
     outputs:
-      GIT_COMMIT_SHA: ${{ steps.set-GIT_COMMIT_SHA.outputs.GIT_COMMIT_SHA }}
-      GIT_BRANCH: ${{ steps.set-GIT_BRANCH.outputs.GIT_BRANCH }}
+      GIT_COMMIT_SHA: {{'${{'}} steps.set-GIT_COMMIT_SHA.outputs.GIT_COMMIT_SHA {{'}}'}}
+      GIT_BRANCH: {{'${{'}} steps.set-GIT_BRANCH.outputs.GIT_BRANCH {{'}}'}}
     steps:
       - uses: actions/checkout@v2
 
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ needs.pyproject-config.outputs.default_py_version }}
+          python-version: {{'${{'}} needs.pyproject-config.outputs.default_py_version {{'}}'}}
 
       - name: Get merge commit message
         id: merge-commit-msg
@@ -171,7 +171,7 @@ jobs:
 
           sha = re.fullmatch(
               r"^Merge ([a-z0-9]{40}) into [a-z0-9]{40}$",
-              "${{ steps.merge-commit-msg.outputs.CMT_MSG }}"
+              "{{'${{'}} steps.merge-commit-msg.outputs.CMT_MSG {{'}}'}}"
           )
 
           if not sha:
@@ -183,20 +183,20 @@ jobs:
         id: set-GIT_COMMIT_SHA
         shell: python
         run: |
-          if "${{ github.event_name }}" == "pull_request":
-              sha = "${{ steps.merge-commit-sha.outputs.COMMIT_SHA }}"
+          if "{{'${{'}} github.event_name {{'}}'}}" == "pull_request":
+              sha = "{{'${{'}} steps.merge-commit-sha.outputs.COMMIT_SHA {{'}}'}}"
               print(f"::set-output name=GIT_COMMIT_SHA::{sha}")
           else:
-              print("::set-output name=GIT_COMMIT_SHA::${{ github.sha }}")
+              print("::set-output name=GIT_COMMIT_SHA::{{'${{'}} github.sha {{'}}'}}")
 
       - name: Set GIT_BRANCH
         id: set-GIT_BRANCH
         shell: python
         run: |
-          branch = "${{ github.ref }}".replace("refs/heads/", "")
+          branch = "{{'${{'}} github.ref {{'}}'}}".replace("refs/heads/", "")
 
-          if "${{ github.event_name }}" == "pull_request":
-              head_ref = "${{ github.head_ref }}"
+          if "{{'${{'}} github.event_name {{'}}'}}" == "pull_request":
+              head_ref = "{{'${{'}} github.head_ref {{'}}'}}"
               if head_ref:
                   branch = head_ref
 
@@ -208,8 +208,8 @@ jobs:
     needs: pyproject-config
     runs-on: ubuntu-latest
     env:
-      CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-      CC_TEST_REPORTER_URL: ${{ needs.pyproject-config.outputs.cc_test_reporter_url }}
+      CC_TEST_REPORTER_ID: {{'${{'}} secrets.CC_TEST_REPORTER_ID {{'}}'}}
+      CC_TEST_REPORTER_URL: {{'${{'}} needs.pyproject-config.outputs.cc_test_reporter_url {{'}}'}}
     steps:
       - name: Download reporter
         shell: bash
@@ -220,7 +220,7 @@ jobs:
       - name: Upload reporter binary as artifact
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ runner.os }}_cc-test-reporter
+          name: {{'${{'}} runner.os {{'}}'}}_cc-test-reporter
           path: ./cc-test-reporter
 
       - name: 'Run "cc-test-reporter before-build"'
@@ -229,22 +229,22 @@ jobs:
 
 
   package-tests:
-    name: nox / package / ${{ matrix.os }}
+    name: nox / package / {{'${{'}} matrix.os {{'}}'}}
     needs: pyproject-config
-    runs-on: ${{ matrix.os }}
+    runs-on: {{'${{'}} matrix.os {{'}}'}}
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.pyproject-config.outputs.test_os) }}
+      matrix: {{'${{'}} fromJson(needs.pyproject-config.outputs.test_os) {{'}}'}}
     outputs:
-      ubuntu-success: ${{ steps.set-result.outputs.ubuntu-success }}
-      macos-success: ${{ steps.set-result.outputs.macos-success }}
-      windows-success: ${{ steps.set-result.outputs.windows-success }}
+      ubuntu-success: {{'${{'}} steps.set-result.outputs.ubuntu-success {{'}}'}}
+      macos-success: {{'${{'}} steps.set-result.outputs.macos-success {{'}}'}}
+      windows-success: {{'${{'}} steps.set-result.outputs.windows-success {{'}}'}}
     steps:
       - uses: actions/checkout@v2
 
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ needs.pyproject-config.outputs.default_py_version }}
+          python-version: {{'${{'}} needs.pyproject-config.outputs.default_py_version {{'}}'}}
 
       - name: Install poetry
         run: |
@@ -273,36 +273,36 @@ jobs:
         run: |
           import sys
 
-          if "${{ steps.test.outcome }}" != "success":
+          if "{{'${{'}} steps.test.outcome {{'}}'}}" != "success":
               sys.exit(1)
           else:
-              if "${{ matrix.os }}" == "ubuntu-latest":
+              if "{{'${{'}} matrix.os {{'}}'}}" == "ubuntu-latest":
                   print("::set-output name=ubuntu-success::true")
-              elif "${{ matrix.os }}" == "macos-latest":
+              elif "{{'${{'}} matrix.os {{'}}'}}" == "macos-latest":
                   print("::set-output name=macos-success::true")
-              elif "${{ matrix.os }}" == "windows-latest":
+              elif "{{'${{'}} matrix.os {{'}}'}}" == "windows-latest":
                   print("::set-output name=windows-success::true")
 
 
   test-code:
-    name: nox / test_code / ${{ matrix.os }}
+    name: nox / test_code / {{'${{'}} matrix.os {{'}}'}}
     needs: [notify-code-climate, package-tests, pyproject-config]
     if: >
       github.event_name == 'pull_request' ||
       github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'push' &&
       contains(toJson(github.event.head_commit.message), '[skip ci]') == false)
-    runs-on: ${{ matrix.os }}
+    runs-on: {{'${{'}} matrix.os {{'}}'}}
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.pyproject-config.outputs.test_os) }}
+      matrix: {{'${{'}} fromJson(needs.pyproject-config.outputs.test_os) {{'}}'}}
     env:
       PYTEST_ADDOPTS: -v -v -ra --showlocals
       PYTEST_XDIST_N: 0
     steps:
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ needs.pyproject-config.outputs.default_py_version }}
+          python-version: {{'${{'}} needs.pyproject-config.outputs.default_py_version {{'}}'}}
 
       - name: Abort if package test failed
         shell: python
@@ -310,18 +310,18 @@ jobs:
           import sys
 
           if (
-              "${{ matrix.os }}" == "ubuntu-latest"
-              and "${{ needs.package-tests.outputs.ubuntu-success }}" == "true"
+              "{{'${{'}} matrix.os {{'}}'}}" == "ubuntu-latest"
+              and "{{'${{'}} needs.package-tests.outputs.ubuntu-success {{'}}'}}" == "true"
           ):
               sys.exit(0)
           elif (
-              "${{ matrix.os }}" == "macos-latest"
-              and "${{ needs.package-tests.outputs.macos-success }}" == "true"
+              "{{'${{'}} matrix.os {{'}}'}}" == "macos-latest"
+              and "{{'${{'}} needs.package-tests.outputs.macos-success {{'}}'}}" == "true"
           ):
               sys.exit(0)
           elif (
-              "${{ matrix.os }}" == "windows-latest"
-              and "${{ needs.package-tests.outputs.windows-success }}" == "true"
+              "{{'${{'}} matrix.os {{'}}'}}" == "windows-latest"
+              and "{{'${{'}} needs.package-tests.outputs.windows-success {{'}}'}}" == "true"
           ):
               sys.exit(0)
           else:
@@ -343,52 +343,52 @@ jobs:
 
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ needs.pyproject-config.outputs.test_python_version_1 }}
+          python-version: {{'${{'}} needs.pyproject-config.outputs.test_python_version_1 {{'}}'}}
         if: needs.pyproject-config.outputs.test_python_version_1
 
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ needs.pyproject-config.outputs.test_python_version_2 }}
+          python-version: {{'${{'}} needs.pyproject-config.outputs.test_python_version_2 {{'}}'}}
         if: needs.pyproject-config.outputs.test_python_version_2
 
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ needs.pyproject-config.outputs.test_python_version_3 }}
+          python-version: {{'${{'}} needs.pyproject-config.outputs.test_python_version_3 {{'}}'}}
         if: needs.pyproject-config.outputs.test_python_version_3
 
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ needs.pyproject-config.outputs.test_python_version_4 }}
+          python-version: {{'${{'}} needs.pyproject-config.outputs.test_python_version_4 {{'}}'}}
         if: needs.pyproject-config.outputs.test_python_version_4
 
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ needs.pyproject-config.outputs.test_python_version_5 }}
+          python-version: {{'${{'}} needs.pyproject-config.outputs.test_python_version_5 {{'}}'}}
         if: needs.pyproject-config.outputs.test_python_version_5
 
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ needs.pyproject-config.outputs.test_python_version_6 }}
+          python-version: {{'${{'}} needs.pyproject-config.outputs.test_python_version_6 {{'}}'}}
         if: needs.pyproject-config.outputs.test_python_version_6
 
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ needs.pyproject-config.outputs.test_python_version_7 }}
+          python-version: {{'${{'}} needs.pyproject-config.outputs.test_python_version_7 {{'}}'}}
         if: needs.pyproject-config.outputs.test_python_version_7
 
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ needs.pyproject-config.outputs.test_python_version_8 }}
+          python-version: {{'${{'}} needs.pyproject-config.outputs.test_python_version_8 {{'}}'}}
         if: needs.pyproject-config.outputs.test_python_version_8
 
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ needs.pyproject-config.outputs.test_python_version_9 }}
+          python-version: {{'${{'}} needs.pyproject-config.outputs.test_python_version_9 {{'}}'}}
         if: needs.pyproject-config.outputs.test_python_version_9
 
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ needs.pyproject-config.outputs.test_python_version_10 }}
+          python-version: {{'${{'}} needs.pyproject-config.outputs.test_python_version_10 {{'}}'}}
         if: needs.pyproject-config.outputs.test_python_version_10
 
       - name: Set python version hash
@@ -399,15 +399,15 @@ jobs:
         uses: actions/cache@v2
         id: cache
         with:
-          path: .tox/${{ runner.os }}
+          path: .tox/{{'${{'}} runner.os {{'}}'}}
           key: >
             test-code
             | tox-env
-            | ${{ runner.os }}
-            | ${{ env.PY_VER_SHA }}
-            | ${{ hashFiles('noxfile.py') }}
-            | ${{ hashFiles('tox.ini') }}
-            | ${{ hashFiles('**/poetry.lock') }}
+            | {{'${{'}} runner.os {{'}}'}}
+            | {{'${{'}} env.PY_VER_SHA {{'}}'}}
+            | {{'${{'}} hashFiles('noxfile.py') {{'}}'}}
+            | {{'${{'}} hashFiles('tox.ini') {{'}}'}}
+            | {{'${{'}} hashFiles('**/poetry.lock') {{'}}'}}
 
       - name: Ensure cache is healthy (windows)
         if: steps.cache.outputs.cache-hit == 'true' && matrix.os == 'windows'
@@ -433,9 +433,9 @@ jobs:
         run: |
           import sys
           py_vers = {
-              "win32": "${{ needs.pyproject-config.outputs.test_py_version_win32 }}",
-              "darwin": "${{ needs.pyproject-config.outputs.test_py_version_darwin }}",
-              "linux": "${{ needs.pyproject-config.outputs.test_py_version_linux }}",
+              "win32": "{{'${{'}} needs.pyproject-config.outputs.test_py_version_win32 {{'}}'}}",
+              "darwin": "{{'${{'}} needs.pyproject-config.outputs.test_py_version_darwin {{'}}'}}",
+              "linux": "{{'${{'}} needs.pyproject-config.outputs.test_py_version_linux {{'}}'}}",
           }
           print(f"::set-output name=archive_name::{py_vers[sys.platform]}")
 
@@ -443,7 +443,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           # yamllint disable-line rule:line-length
-          name: coverage-${{ matrix.os }}-${{ steps.set-archive-name.outputs.archive_name }}
+          name: coverage-{{'${{'}} matrix.os {{'}}'}}-{{'${{'}} steps.set-archive-name.outputs.archive_name {{'}}'}}
           path: .coverage_cache/.coverage*
           if-no-files-found: error
 
@@ -451,7 +451,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           # yamllint disable-line rule:line-length
-          name: junit-${{ matrix.os }}-${{ steps.set-archive-name.outputs.archive_name }}
+          name: junit-{{'${{'}} matrix.os {{'}}'}}-{{'${{'}} steps.set-archive-name.outputs.archive_name {{'}}'}}
           path: .junit_cache/junit*.xml
           if-no-files-found: error
 
@@ -465,7 +465,7 @@ jobs:
 
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ needs.pyproject-config.outputs.default_py_version }}
+          python-version: {{'${{'}} needs.pyproject-config.outputs.default_py_version {{'}}'}}
 
       - name: Install poetry
         run: |
@@ -530,7 +530,7 @@ jobs:
 
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ needs.pyproject-config.outputs.default_py_version }}
+          python-version: {{'${{'}} needs.pyproject-config.outputs.default_py_version {{'}}'}}
 
       - name: Install poetry
         run: |
@@ -569,20 +569,20 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CI_NAME: Github Actions
-      CI_BUILD_ID: ${{ github.run_id }}
+      CI_BUILD_ID: {{'${{'}} github.run_id {{'}}'}}
       CI_BUILD_URL: |
-        https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-      CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-      CC_TEST_REPORTER_URL: ${{ needs.pyproject-config.outputs.cc_test_reporter_url }}
-      GIT_COMMIT_SHA: ${{ needs.set-git-env-vars.outputs.GIT_COMMIT_SHA }}
-      GIT_BRANCH: ${{ needs.set-git-env-vars.outputs.GIT_BRANCH }}
+        https://github.com/{{'${{'}} github.repository {{'}}'}}/actions/runs/{{'${{'}} github.run_id {{'}}'}}
+      CC_TEST_REPORTER_ID: {{'${{'}} secrets.CC_TEST_REPORTER_ID {{'}}'}}
+      CC_TEST_REPORTER_URL: {{'${{'}} needs.pyproject-config.outputs.cc_test_reporter_url {{'}}'}}
+      GIT_COMMIT_SHA: {{'${{'}} needs.set-git-env-vars.outputs.GIT_COMMIT_SHA {{'}}'}}
+      GIT_BRANCH: {{'${{'}} needs.set-git-env-vars.outputs.GIT_BRANCH {{'}}'}}
     steps:
       - uses: actions/checkout@v2
 
       - name: Download reporter binary artifact
         uses: actions/download-artifact@v2
         with:
-          name: ${{ runner.os }}_cc-test-reporter
+          name: {{'${{'}} runner.os {{'}}'}}_cc-test-reporter
           path: ./cc-test-reporter
 
       - name: Ensure healthy binary, else download new
@@ -628,9 +628,9 @@ jobs:
         id: total-success
         shell: bash
         run: |
-          tests=${{ needs.test-code.result }}
-          cov=${{ needs.report-coverage.result }}
-          send_cov=${{ needs.push-coverage-to-code-climate.result }}
+          tests={{'${{'}} needs.test-code.result {{'}}'}}
+          cov={{'${{'}} needs.report-coverage.result {{'}}'}}
+          send_cov={{'${{'}} needs.push-coverage-to-code-climate.result {{'}}'}}
 
           if [[ $tests == 'success' ]] && [[ $cov == 'success' ]] &&
           [[ $send_cov == 'success' ]]; then
@@ -644,20 +644,20 @@ jobs:
         id: repo-dir
         shell: bash
         run: |
-          repo_dir=${GITHUB_REPOSITORY#${{ github.repository_owner }}/}
+          repo_dir=${GITHUB_REPOSITORY#{{'${{'}} github.repository_owner {{'}}'}}/}
           echo "::set-output name=repo-dir::$repo_dir"
 
       - name: Set status via gihub API
         uses: octokit/request-action@v2.x
         with:
           route: POST /repos/{owner}/{repo}/statuses/{sha}
-          owner: ${{ github.repository_owner }}
-          repo: ${{ steps.repo-dir.outputs.repo-dir }}
-          sha: ${{ needs.set-git-env-vars.outputs.GIT_COMMIT_SHA }}
-          state: ${{ steps.total-success.outputs.state }}
+          owner: {{'${{'}} github.repository_owner {{'}}'}}
+          repo: {{'${{'}} steps.repo-dir.outputs.repo-dir {{'}}'}}
+          sha: {{'${{'}} needs.set-git-env-vars.outputs.GIT_COMMIT_SHA {{'}}'}}
+          state: {{'${{'}} steps.total-success.outputs.state {{'}}'}}
           target_url: |
-            "https://github.com/${{ github.repository }}/runs/${{ github.run_id }}"
+            "https://github.com/{{'${{'}} github.repository {{'}}'}}/runs/{{'${{'}} github.run_id {{'}}'}}"
           description: CI pipeline for testing documentation
           context: ci-test-docs
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: {{'${{'}} secrets.GITHUB_TOKEN {{'}}'}}

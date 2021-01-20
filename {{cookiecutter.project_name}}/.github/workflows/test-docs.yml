@@ -58,7 +58,7 @@ jobs:
       contains(toJson(github.event.head_commit.message), '[skip ci]') == false)
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.get-default-version.outputs.default_python_version }}
+      version: {{'${{'}} steps.get-default-version.outputs.default_python_version {{'}}'}}
     steps:
       - uses: actions/checkout@v2
 
@@ -98,7 +98,7 @@ jobs:
 
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ needs.pyproject-config.outputs.version }}
+          python-version: {{'${{'}} needs.pyproject-config.outputs.version {{'}}'}}
 
       - name: Install poetry
         run: |
@@ -124,10 +124,10 @@ jobs:
           key: >
             test-docs
             | tox-envs
-            | ${{ env.PY_VER_SHA }}
-            | ${{ hashFiles('noxfile.py') }}
-            | ${{ hashFiles('tox.ini') }}
-            | ${{ hashFiles('**/poetry.lock') }}
+            | {{'${{'}} env.PY_VER_SHA {{'}}'}}
+            | {{'${{'}} hashFiles('noxfile.py') {{'}}'}}
+            | {{'${{'}} hashFiles('tox.ini') {{'}}'}}
+            | {{'${{'}} hashFiles('**/poetry.lock') {{'}}'}}
 
       - name: Ensure cache is healthy (html builder)
         if: steps.cache.outputs.cache-hit == 'true'
@@ -150,13 +150,13 @@ jobs:
     #: Based on: https://github.com/paambaati/codeclimate-action/blob/26b4414184dd6928c7c8b474732a2dce632925c9/src/main.ts#L39
     runs-on: ubuntu-latest
     outputs:
-      GIT_COMMIT_SHA: ${{ steps.set-GIT_COMMIT_SHA.outputs.GIT_COMMIT_SHA }}
+      GIT_COMMIT_SHA: {{'${{'}} steps.set-GIT_COMMIT_SHA.outputs.GIT_COMMIT_SHA {{'}}'}}
     steps:
       - uses: actions/checkout@v2
 
       - uses: actions/setup-python@v2
         with:
-          python-version: ${{ needs.pyproject-config.outputs.version }}
+          python-version: {{'${{'}} needs.pyproject-config.outputs.version {{'}}'}}
 
       - name: Get merge commit message
         id: merge-commit-msg
@@ -173,7 +173,7 @@ jobs:
 
           sha = re.fullmatch(
               r"^Merge ([a-z0-9]{40}) into [a-z0-9]{40}$",
-              "${{ steps.merge-commit-msg.outputs.CMT_MSG }}"
+              "{{'${{'}} steps.merge-commit-msg.outputs.CMT_MSG {{'}}'}}"
           )
 
           if not sha:
@@ -185,11 +185,11 @@ jobs:
         id: set-GIT_COMMIT_SHA
         shell: python
         run: |
-          if "${{ github.event_name }}" == "pull_request":
-              sha = "${{ steps.merge-commit-sha.outputs.COMMIT_SHA }}"
+          if "{{'${{'}} github.event_name {{'}}'}}" == "pull_request":
+              sha = "{{'${{'}} steps.merge-commit-sha.outputs.COMMIT_SHA {{'}}'}}"
               print(f"::set-output name=GIT_COMMIT_SHA::{sha}")
           else:
-              print("::set-output name=GIT_COMMIT_SHA::${{ github.sha }}")
+              print("::set-output name=GIT_COMMIT_SHA::{{'${{'}} github.sha {{'}}'}}")
 
 
   set-status:
@@ -206,20 +206,20 @@ jobs:
         id: repo-dir
         shell: bash
         run: |
-          repo_dir=${GITHUB_REPOSITORY#${{ github.repository_owner }}/}
+          repo_dir=${GITHUB_REPOSITORY#{{'${{'}} github.repository_owner {{'}}'}}/}
           echo "::set-output name=repo-dir::$repo_dir"
 
       - name: Set status via gihub API
         uses: octokit/request-action@v2.x
         with:
           route: POST /repos/{owner}/{repo}/statuses/{sha}
-          owner: ${{ github.repository_owner }}
-          repo: ${{ steps.repo-dir.outputs.repo-dir }}
-          sha: ${{ needs.set-git-env-vars.outputs.GIT_COMMIT_SHA }}
-          state: ${{ needs.test-docs.result }}
+          owner: {{'${{'}} github.repository_owner {{'}}'}}
+          repo: {{'${{'}} steps.repo-dir.outputs.repo-dir {{'}}'}}
+          sha: {{'${{'}} needs.set-git-env-vars.outputs.GIT_COMMIT_SHA {{'}}'}}
+          state: {{'${{'}} needs.test-docs.result {{'}}'}}
           target_url: |
-            https://github.com/${{ github.repository }}/runs/${{ github.run_id }}
+            https://github.com/{{'${{'}} github.repository {{'}}'}}/runs/{{'${{'}} github.run_id {{'}}'}}
           description: CI pipeline for testing documentation
           context: ci-test-docs
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: {{'${{'}} secrets.GITHUB_TOKEN {{'}}'}}

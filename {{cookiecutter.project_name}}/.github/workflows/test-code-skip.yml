@@ -27,7 +27,7 @@ jobs:
     name: Get config from pyproject.toml
     runs-on: ubuntu-latest
     outputs:
-      test_os: ${{ steps.get-config.outputs.test_os }}
+      test_os: {{'${{'}} steps.get-config.outputs.test_os {{'}}'}}
     steps:
       - uses: actions/checkout@v2
 
@@ -57,11 +57,11 @@ jobs:
 
 
   test-code:
-    name: nox / test_code / ${{ matrix.os }}
+    name: nox / test_code / {{'${{'}} matrix.os {{'}}'}}
     needs: pyproject-config
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{ fromJson(needs.pyproject-config.outputs.test_os) }}
+      matrix: {{'${{'}} fromJson(needs.pyproject-config.outputs.test_os) {{'}}'}}
     steps:
       - run: exit 0
 
