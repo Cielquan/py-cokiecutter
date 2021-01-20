@@ -8,5 +8,5 @@
     "project_short_description": "Python Boilerplate for my python packages.",
     "license": ["GPL-3.0", "LGPL-3.0" ,"MIT", "BSD3", "Not open source"],
     "version": "1.0.0",
-    "year": "{% now 'local', '%Y' %}",
+    "year": "{% now 'local', '%Y' %}"
 }
