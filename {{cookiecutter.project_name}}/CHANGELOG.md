@@ -16,6 +16,6 @@ For a list of all available releases see the
 
 
 ## Unreleased
-[commits](https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/commits/master)
+[commits](https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/commits/main)
 
 - Intital release
