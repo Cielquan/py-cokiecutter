@@ -3,7 +3,7 @@
     It is highly recommend to read the contribution guidelines
     to save you and us time and unnecessary review cycles.
 
-    https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/blob/master/CONTRIBUTING.rst
+    https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/blob/main/CONTRIBUTING.rst
 
     If you have unanswered questions feel free to open an issue or submit and ask!
 
