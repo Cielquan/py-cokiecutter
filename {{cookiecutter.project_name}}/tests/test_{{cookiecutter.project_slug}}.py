@@ -1,4 +1,3 @@
-# noqa: D205,D208,D400
 """
     tests.test_{{cookiecutter.project_slug}}
     {{ "~" * (11 + cookiecutter.project_slug|length) }}
