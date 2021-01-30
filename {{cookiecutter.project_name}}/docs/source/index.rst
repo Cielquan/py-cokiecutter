@@ -1,13 +1,10 @@
-.. This is the documentation's base file.
-
-{{ "=" * (11 + cookiecutter.project_name|length + 17) }}
 Welcome to {{ cookiecutter.project_name }}'s documentation!
 {{ "=" * (11 + cookiecutter.project_name|length + 17) }}
 
 .. include:: _badges.rst
 
 
-{{ cookiecutter.project_short_description }}
+**{{ cookiecutter.project_short_description }}**
 
 
 .. toctree::

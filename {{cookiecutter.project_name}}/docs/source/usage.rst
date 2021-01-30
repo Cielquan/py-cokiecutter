@@ -1,8 +1,4 @@
-.. highlight:: console
-
 Usage
 =====
 
-See the :ref:`api:API` section.
-
-.. highlight:: default
+Please see the :ref:`api:API` section for information on the different functionality.
