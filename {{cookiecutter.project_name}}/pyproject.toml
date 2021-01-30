@@ -38,7 +38,7 @@
 
     [tool.poetry.urls]
         "Issue Tracker" = "https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/issues"
-        "Changelog" = "https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}/blob/main/README.rst"
+        "Changelog" = "https://{{cookiecutter.project_lower_case}}.readthedocs.io/en/latest/changelog"
         "Documentation" = "https://{{cookiecutter.project_lower_case}}.readthedocs.io"
         "Source" = "https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}"
 
