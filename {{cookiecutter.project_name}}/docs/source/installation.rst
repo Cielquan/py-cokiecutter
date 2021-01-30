@@ -25,8 +25,8 @@ You can simply install the package from PyPI::
 
 Installation from source
 ------------------------
-You can install SpotInkCalc directly from a Git repository clone. This can be done
-either by cloning the repository and installing from the local clone::
+You can install ``{{cookiecutter.project_slug}}`` directly from a Git repository clone.
+This can be done either by cloning the repository and installing from the local clone::
 
     $ git clone https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}.git
     $ cd {{cookiecutter.project_slug}}
