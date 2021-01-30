@@ -29,7 +29,7 @@ You can install SpotInkCalc directly from a Git repository clone. This can be do
 either by cloning the repository and installing from the local clone::
 
     $ git clone https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_lower_case}}.git
-    $ cd python_test
+    $ cd {{cookiecutter.project_slug}}
     $ pip install .
 
 
